@@ -1,5 +1,10 @@
 package struct_configuration
 
+import (
+	"fmt"
+	"testing"
+)
+
 type OptsFunc func(*Opts)
 
 type Opts struct {
@@ -40,4 +45,10 @@ func NewServer(opts ...OptsFunc) *Server {
 	return &Server{
 		Opts: defaultOpts,
 	}
+}
+
+func TestConfigPattern(t *testing.T) {
+	server := NewServer(WitTLS)
+
+	fmt.Printf("%+v\n", server)
 }
