@@ -8,13 +8,15 @@ import (
 	"time"
 )
 
+type key string
+
 type Response struct {
 	Value int
 	Err   error
 }
 
 func FetchUserData(ctx context.Context, userID int) (int, error) {
-	value := ctx.Value("you")
+	value := ctx.Value(key("you"))
 	fmt.Println(value)
 
 	context, cancel := context.WithTimeout(ctx, 200*time.Millisecond)
@@ -39,7 +41,7 @@ func FetchUserData(ctx context.Context, userID int) (int, error) {
 }
 
 func FetchThirdPartyStuffWhichCanBeSlow() (int, error) {
-	time.Sleep(time.Millisecond * 100)
+	time.Sleep(time.Millisecond * 250)
 
 	return 666, nil
 }
@@ -47,7 +49,7 @@ func FetchThirdPartyStuffWhichCanBeSlow() (int, error) {
 func TestFetchingThirdPartyWithContext(t *testing.T) {
 	start := time.Now()
 
-	ctx := context.WithValue(context.Background(), "you", "who")
+	ctx := context.WithValue(context.Background(), key("you"), "who")
 	userID := 10
 	val, err := FetchUserData(ctx, userID)
 	if err != nil {
