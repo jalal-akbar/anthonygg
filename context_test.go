@@ -41,7 +41,7 @@ func FetchUserData(ctx context.Context, userID int) (int, error) {
 }
 
 func FetchThirdPartyStuffWhichCanBeSlow() (int, error) {
-	time.Sleep(time.Millisecond * 250)
+	time.Sleep(time.Millisecond * 100)
 
 	return 666, nil
 }
